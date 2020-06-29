@@ -1,0 +1,141 @@
+
+
+```{r}
+data <- read.csv(file ="hw1_data.csv")
+sum(is.na(data["Ozone"]))
+summary(data)
+
+
+sub_data <- data["Ozone">31 && "Temp" >90]
+summary(sub_data)
+mean(data[which(data$Month == 6),]$Temp)
+
+max(data["Month" == 5])
+
+```
+
+```{r}
+# Write a function named 'pollutantmean' that calculates the mean of a pollutant (sulfate or nitrate) across a specified #list of monitors. The function 'pollutantmean' takes three arguments: 'directory', 'pollutant', and 'id'. Given a #vector monitor ID numbers, 'pollutantmean' reads that monitors' particulate matter data from the directory specified in #the 'directory' argument and returns the mean of the pollutant across all of the monitors, ignoring any missing values #coded as NA. A prototype of the function is as follows
+
+pollutantmean <- function(directory, pollutant, id = 1:332){
+    
+    pollutant_v = c()
+    for(i in id){
+         fileNames <- paste0(directory, '/', formatC(i, width=3, flag="0"), ".csv" )
+         data<- read.csv(file = fileNames) 
+         #print(data_1)
+             
+         pollutant_v <- c( pollutant_v, data[, pollutant])
+    
+         
+        }
+    
+    mean(pollutant_v, na.rm = TRUE)
+    }
+
+pollutantmean("specdata", "nitrate")
+
+
+```
+```{r}
+complete <- function(directory, id = 1:332){
+    
+     ids <- c()
+     nobss <- c()
+     
+     df <- data.frame(id = c(), nobs = c())
+     
+     for(i in id){
+         fileNames <- paste0(directory, '/', formatC(i, width=3, flag="0"), ".csv" )
+         data<- read.csv(file = fileNames) 
+         #print(data_1)
+        ids = c(ids, i)
+        nobss = c( nobss,sum(complete.cases(data)))
+        df <- data.frame(ids = c(ids, i), nobss = c( nobss,sum(complete.cases(data))))
+        
+     }
+   # View(df)
+    data.frame(id = ids, nobs = nobss)
+    
+ }
+
+
+RNGversion("3.5.1")  
+set.seed(42)
+cc <- complete("specdata", 332:1)
+use <- sample(332, 10)
+print(cc[use, "nobs"])
+
+df_output <- complete("specdata", c(2,3,4,5,6))
+#View(df_output)
+
+
+
+
+```
+
+```{r}
+corr <- function(directory, threshold = 0){
+    
+     ids <- c()
+     nobss <- c()
+     
+     df <- data.frame(id = c(), nobs = c())
+     
+     for(i in 332){
+         fileNames <- paste0(directory, '/', formatC(i, width=3, flag="0"), ".csv" )
+         data<- read.csv(file = fileNames) 
+         #print(data_1)
+         
+         if (sum(complete.cases(data)) > threshold){
+             correlation <- cor(x = data['sulphate'], y = data["nitrate"])
+             print(correlation)
+         }
+             
+    
+             
+        # ids = c(ids, i)
+        # nobss = c( nobss,sum(complete.cases(data)))
+        # df <- data.frame(ids = c(ids, i), nobss = c( nobss,sum(complete.cases(data))))
+        # 
+     }
+    
+ }
+
+
+cor <- corr("specdata", 150)
+print(cor)
+
+
+
+corr <- function(directory, threshold = 0) {
+  
+  # Reading in all files and making a large data.table
+  lst <- lapply(file.path(directory, list.files(path = directory, pattern="*.csv")), data.table::fread)
+  dt <- rbindlist(lst)
+  
+  # Only keep completely observed cases
+  dt <- dt[complete.cases(dt),]
+  
+  # Apply threshold
+  dt <- dt[, .(nobs = .N, corr = cor(x = sulfate, y = nitrate)), by = ID][nobs > threshold]
+  return(dt[, corr])
+}
+
+cor <- corr("specdata", 150)
+print(cor)
+```
+
+```{r}
+cr <- corr("specdata")                
+cr <- sort(cr)   
+RNGversion("3.5.1")
+set.seed(868)                
+out <- round(cr[sample(length(cr), 5)], 4)
+print(out)
+```
+
+ 
+
+
+
