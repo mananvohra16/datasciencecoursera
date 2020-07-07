@@ -107,7 +107,10 @@ cor <- corr("specdata", 150)
 print(cor)
 
 
+```
 
+```{r}
+library(data.table)
 corr <- function(directory, threshold = 0) {
   
   # Reading in all files and making a large data.table
@@ -127,15 +130,31 @@ print(cor)
 ```
 
 ```{r}
-cr <- corr("specdata")                
-cr <- sort(cr)   
-RNGversion("3.5.1")
-set.seed(868)                
-out <- round(cr[sample(length(cr), 5)], 4)
-print(out)
+cr <- corr("specdata", 2000)                
+n <- length(cr)                
+cr <- corr("specdata", 1000)                
+cr <- sort(cr)
+print(c(n, round(cr, 4)))
 ```
 
- 
+
+```{r}
+library(datasets)
+data(iris)
+lapply(iris, mean, iris[ , c("Species")])
+```
+
+
+```{r}
+library(datasets)
+library(data.table)
+data(mtcars)
+mtcars_dt <- as.data.table(mtcars)
+mtcars_dt <- mtcars_dt[,  .(mean_cols = mean(hp)), by = cyl]
+round(abs(mtcars_dt[cyl == 4, mean_cols] - mtcars_dt[cyl == 8, mean_cols]))
+
+```
+
 
 
 
