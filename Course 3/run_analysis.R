@@ -57,29 +57,33 @@ data$feature <- factor(data$featureName)
 grepthis <- function (regex) {
     grepl(regex, data$feature)
 }
-## Features with 2 categories
+
 n <- 2
 y <- matrix(seq(1, n), nrow=n)
+
 x <- matrix(c(grepthis("^t"), grepthis("^f")), ncol=nrow(y))
-data$featDomain <- factor(x %*% y, labels=c("Time", "Freq"))
+data$Domain <- factor(x %*% y, labels=c("Time", "Freq"))
+
 x <- matrix(c(grepthis("Acc"), grepthis("Gyro")), ncol=nrow(y))
-data$featInstrument <- factor(x %*% y, labels=c("Accelerometer", "Gyroscope"))
+data$Instrument <- factor(x %*% y, labels=c("Accelerometer", "Gyroscope"))
+
 x <- matrix(c(grepthis("BodyAcc"), grepthis("GravityAcc")), ncol=nrow(y))
-data$featAcceleration <- factor(x %*% y, labels=c(NA, "Body", "Gravity"))
+data$Acceleration <- factor(x %*% y, labels=c(NA, "Body", "Gravity"))
+
 x <- matrix(c(grepthis("mean()"), grepthis("std()")), ncol=nrow(y))
-data$featVariable <- factor(x %*% y, labels=c("Mean", "SD"))
-## Features with 1 category
-data$featJerk <- factor(grepthis("Jerk"), labels=c(NA, "Jerk"))
-data$featMagnitude <- factor(grepthis("Mag"), labels=c(NA, "Magnitude"))
-## Features with 3 categories
+data$Variable <- factor(x %*% y, labels=c("Mean", "SD"))
+
+data$Jerk <- factor(grepthis("Jerk"), labels=c(NA, "Jerk"))
+data$Magnitude <- factor(grepthis("Mag"), labels=c(NA, "Magnitude"))
+
 n <- 3
 y <- matrix(seq(1, n), nrow=n)
 x <- matrix(c(grepthis("-X"), grepthis("-Y"), grepthis("-Z")), ncol=nrow(y))
-data$featAxis <- factor(x %*% y, labels=c(NA, "X", "Y", "Z"))
+data$Axis <- factor(x %*% y, labels=c(NA, "X", "Y", "Z"))
 
-setkey(data, subject, activity, featDomain, featAcceleration, featInstrument, featJerk, featMagnitude, featVariable, featAxis)
+setkey(data, subject, activity, Domain, Acceleration, Instrument, Jerk, Magnitude, Variable, Axis)
 dtTidy <- data[, list(count = .N, average = mean(value)), by=key(data)]
-write.table(dtTidy, file="Assignment/tidy_data1.txt", row.names = FALSE)
+write.table(dtTidy, file="tidy_data1.txt", row.names = FALSE)
 
 
 
