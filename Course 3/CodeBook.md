@@ -38,27 +38,27 @@ Classes ‘data.table’ and 'data.frame':	11880 obs. of  11 variables:
 
 dtTidy
 
-subject         activity featDomain featAcceleration featInstrument featJerk featMagnitude featVariable
-    1:       1           LAYING       Time             <NA>      Gyroscope     <NA>          <NA>         Mean
-    2:       1           LAYING       Time             <NA>      Gyroscope     <NA>          <NA>         Mean
-    3:       1           LAYING       Time             <NA>      Gyroscope     <NA>          <NA>         Mean
-    4:       1           LAYING       Time             <NA>      Gyroscope     <NA>          <NA>           SD
-    5:       1           LAYING       Time             <NA>      Gyroscope     <NA>          <NA>           SD
-   ---                                                                                                        
-11876:      30 WALKING_UPSTAIRS       Freq             Body  Accelerometer     Jerk          <NA>           SD
-11877:      30 WALKING_UPSTAIRS       Freq             Body  Accelerometer     Jerk          <NA>           SD
-11878:      30 WALKING_UPSTAIRS       Freq             Body  Accelerometer     Jerk          <NA>           SD
-11879:      30 WALKING_UPSTAIRS       Freq             Body  Accelerometer     Jerk     Magnitude         Mean
-11880:      30 WALKING_UPSTAIRS       Freq             Body  Accelerometer     Jerk     Magnitude           SD
-       featAxis count     average
-    1:        X    50 -0.01655309
-    2:        Y    50 -0.06448612
-    3:        Z    50  0.14868944
-    4:        X    50 -0.87354387
-    5:        Y    50 -0.95109044
-   ---                           
-11876:        X    65 -0.56156521
-11877:        Y    65 -0.61082660
-11878:        Z    65 -0.78475388
-11879:     <NA>    65 -0.54978489
-11880:     <NA>    65 -0.58087813
+#subject         activity featDomain featAcceleration featInstrument featJerk featMagnitude featVariable
+#    1:       1           LAYING       Time             <NA>      Gyroscope     <NA>          <NA>         Mean
+#    2:       1           LAYING       Time             <NA>      Gyroscope     <NA>          <NA>         Mean
+#    3:       1           LAYING       Time             <NA>      Gyroscope     <NA>          <NA>         Mean
+#    4:       1           LAYING       Time             <NA>      Gyroscope     <NA>          <NA>           SD
+#    5:       1           LAYING       Time             <NA>      Gyroscope     <NA>          <NA>           SD
+#   ---                                                                                                        
+#11876:      30 WALKING_UPSTAIRS       Freq             Body  Accelerometer     Jerk          <NA>           SD
+#11877:      30 WALKING_UPSTAIRS       Freq             Body  Accelerometer     Jerk          <NA>           SD
+#11878:      30 WALKING_UPSTAIRS       Freq             Body  Accelerometer     Jerk          <NA>           SD
+#11879:      30 WALKING_UPSTAIRS       Freq             Body  Accelerometer     Jerk     Magnitude         Mean
+#11880:      30 WALKING_UPSTAIRS       Freq             Body  Accelerometer     Jerk     Magnitude           SD
+#       featAxis count     average
+#    1:        X    50 -0.01655309
+#    2:        Y    50 -0.06448612
+#    3:        Z    50  0.14868944
+#    4:        X    50 -0.87354387
+#    5:        Y    50 -0.95109044
+#   ---                           
+#11876:        X    65 -0.56156521
+#11877:        Y    65 -0.61082660
+#11878:        Z    65 -0.78475388
+#11879:     <NA>    65 -0.54978489
+#11880:     <NA>    65 -0.58087813
