@@ -1,0 +1,32 @@
+```{r}
+
+data <- read.csv("Course 3/getdata_data_ss06hid.csv")
+head(data)
+
+```
+```{r}
+library(dplyr)
+
+agricultureLogical <- data$ACR == 3 & data$AGS == 6
+head(which(agricultureLogical),3 )
+
+```
+
+```{r}
+library(jpeg)
+
+img_data <- readJPEG("Course 3/getdata_jeff.jpg", native = TRUE)
+img_data
+quantile(img_data, probs = c(0.3 , 0.8))
+
+```
+
+```{r}
+gdp_data <- read.csv("Course 3/getdata_data_GDP.csv", skip = 4)
+edstats_data <- read.csv("Course 3/getdata_data_EDSTATS_Country.csv")
+
+match_data <- merge(gdp_data, edstats_data, gdp_data$)
+
+
+```
+
