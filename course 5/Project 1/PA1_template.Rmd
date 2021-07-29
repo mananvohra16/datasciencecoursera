@@ -1,0 +1,104 @@
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
+
+## Loading and preprocessing the data
+
+```{r}
+library(data.table)
+library(ggplot2)
+
+data <- data.table::fread(input = "data/activity.csv")
+```
+
+
+```{r}
+head(data)
+```
+
+## What is mean total number of steps taken per day?
+
+```{r}
+Total_Steps_day <- data[, c(lapply(.SD, sum, na.rm = FALSE)), .SDcols = c("steps"), by = .(date)] 
+
+ggplot(Total_Steps_day, aes(x=steps)) + 
+  geom_histogram(binwidth = 1000)+
+  labs(title = "Daily Steps", x = "Steps", y = "Frequency")
+
+```
+
+```{r}
+paste0("Mean: ", mean(Total_Steps_day$steps, na.rm = TRUE))
+paste0("Median: ", median(Total_Steps_day$steps, na.rm = TRUE))
+```
+
+## What is the average daily activity pattern?
+```{r}
+mean_daily_steps <- data[, c(lapply(.SD, mean, na.rm= TRUE)), .SDcols = c("steps"), by = .(interval)]
+
+ggplot(mean_daily_steps, aes(x= interval, y = steps)) +
+  geom_line(type = "1") +
+  labs(title = "Average Daily Steps", x = "Interval", y= "Mean")
+
+```
+
+
+```{r}
+mean_daily_steps[steps == max(steps), "interval"]
+```
+## Imputing missing values
+
+1. Finding total number of missing values in data 
+```{r}
+data[is.na(steps), .N]
+```
+
+2. To impute the missing values we can fill it with median values
+
+```{r}
+filled_data <- data
+filled_data[is.na(steps), "steps"] <- filled_data[, c(lapply(.SD, median, na.rm = TRUE)),  .SDcols = c("steps")]
+filled_data[is.na(steps), .N]
+```
+
+```{r}
+total_steps_day <- filled_data[, c(lapply(.SD, sum)), .SDcols = c("steps"), by = .(date)]
+```
+
+new daily mean and median
+
+```{r}
+paste0("Mean: ", mean(total_steps_day$steps, na.rm = TRUE))
+paste0("Median: ", median(total_steps_day$steps, na.rm = TRUE))
+```
+
+```{r}
+ggplot(total_steps_day, aes(x=steps)) + 
+  geom_histogram(binwidth = 1000)+
+  labs(title = "Daily Steps", x = "Steps", y = "Frequency")
+```
+
+## Are there differences in activity patterns between weekdays and weekends?
+
+```{r}
+filled_data[, date := as.POSIXct(date, format = "%Y-%m-%d")]
+filled_data[, `Day of Week`:= weekdays(x = date)]
+filled_data[grepl(pattern = "Monday|Tuesday|Wednesday|Thursday|Friday", x = `Day of Week`), "weekday or weekend"] <- "weekday"
+filled_data[grepl(pattern = "Saturday|Sunday", x = `Day of Week`), "weekday or weekend"] <- "weekend"
+filled_data[, `weekday or weekend` := as.factor(`weekday or weekend`)]
+head(filled_data, 10)
+```
+
+```{r}
+filled_data[is.na(steps), "steps"] <- filled_data[, c(lapply(.SD, median, na.rm = TRUE)), .SDcols = c("steps")]
+IntervalDT <- filled_data[, c(lapply(.SD, mean, na.rm = TRUE)), .SDcols = c("steps"), by = .(interval, `weekday or weekend`)] 
+
+ggplot(IntervalDT , aes(x = interval , y = steps, color=`weekday or weekend`)) + geom_line() + labs(title = "Avg. Daily Steps by Weektype", x = "Interval", y = "No. of Steps") + facet_wrap(~`weekday or weekend` , ncol = 1, nrow=2)
+```
+
+
+
+  
