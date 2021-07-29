@@ -1,8 +1,8 @@
 ---
 title: "Project 8"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -83,11 +83,11 @@ dim(testing)
 Modeling
 ```{r}
 # 5 fold cross validation
-modCtl <- trainControl(method = 'cv', number = 5,  verboseIter = TRUE, allowParallel = TRUE)
+modCtl <- trainControl(method = 'cv', number = 5, allowParallel = TRUE)
 
 #random forest modeling
 set.seed(2384)
-modRf <- train(classe ~. , data = training, method = 'rf', trControl = modCtl, verbose = TRUE)
+modRf <- train(classe ~. , data = training, method = 'rf', trControl = modCtl)
 modRf$finalModel
 ```
 
