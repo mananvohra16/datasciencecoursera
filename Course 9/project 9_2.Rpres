@@ -1,0 +1,22 @@
+Week 3 Assignment
+
+========================================================
+author: Manan Vohra
+date: August 17th 2021
+autosize: true
+
+Plotly
+========================================================
+
+```{r, echo=FALSE}
+library(plotly)
+data(iris)
+fig <- plot_ly(data = iris, x = ~Sepal.Length, y = ~Petal.Length)
+
+htmlwidgets::saveWidget(as.widget(fig), file = "demo.html")
+
+```
+<iframe src="demo.html" style="position:absolute;height:100%;width:100%"></iframe>
+
+Thank you
+========================================================
