@@ -24,7 +24,11 @@ Using the Iris data set, we plot Sepal width vs Sepal length scatter plot for  t
 
 Link to the application : https://mananvoh.shinyapps.io/project_9_3/
 
-Link to the application code on github : 
+Link to the application code on github 
+
+UI : https://github.com/mananvohra16/datasciencecoursera/blob/gh-pages/Course%209/ui.R
+
+Server : https://github.com/mananvohra16/datasciencecoursera/blob/gh-pages/Course%209/server.R
 
 
 
